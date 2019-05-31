@@ -7,6 +7,14 @@
 // Note: I also added room for label text as well as text padding,
 // though not all graphs will need those specifications.
 
+var modelType =  function inputChangeModelType(e) {
+  console.log(document.getElementById("selected_model").value);
+ }
+
+ var selectedDate =  function inputChangeDate(e) {
+   console.log(document.getElementById("chosen_date").value);
+  }
+
 // Grab the width of the containing box
 var width = parseInt(d3.select("#scatter").style("width"));
 
