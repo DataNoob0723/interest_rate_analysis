@@ -34,11 +34,25 @@ from keras.layers import Input, Dense, Dropout, LSTM
 from keras.models import Model, Sequential
 from keras import optimizers
 from keras.utils import to_categorical
+from sqlalchemy import create_engine
+import pymysql
 
 
 class Model_Generation:
     def __init__(self):
-        self.df = pd.read_csv("data/correct_fred_data.csv")
+#        self.df = pd.read_csv("data/correct_fred_data.csv")
+        pymysql.install_as_MySQLdb()
+        
+        PASSWD = os.getenv("LOCAL_MYSQL_PASS")
+        USER = "root"
+        PORT = "3306"
+        DOMAIN = "localhost"
+        DB = "fred_db"
+        engine = create_engine(f"mysql://{USER}:{PASSWD}@{DOMAIN}:{PORT}/{DB}")
+        conn = engine.connect()
+        
+        self.df = pd.read_sql_query('select * from fred_data', con=engine)
+        
     
     def preprocess_df(self):
         """
@@ -88,7 +102,9 @@ class Model_Generation:
         reversed_df.reset_index(drop=True, inplace=True)
         
         return reversed_df
-    
+        
+        df.to_sql('fred_data', conn, if_exists='replace', index=False)
+        
     def get_dates(self):
         """
         Return a list of all of the available dates from reversed_df
