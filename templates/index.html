@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Predicting Changes in the Fed Rate</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+
+<body>
+  <nav class="white" role="navigation">
+    <div class="nav-wrapper container">
+    </div>
+  </nav>
+
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container"><br><br>
+        <h1 class="header center blue-text">Predicting Changes in the Fed Rate</h1>
+        <div class="row center">
+          <h5 class="header col s12 blue-text text-lighten-2">Do these 48 economic indicators influence the Fed Rate?</h5>
+        </div><br><br>
+      </div>
+    </div>
+    <div class="parallax"><img src="static/images/background1.jpg" alt="Unsplashed background img 1"></div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+        <div class="row">
+            <div class="col m3 center-align">
+              <!--   Dropdown   -->
+              <div class="input-field col s12">
+                  <select id="selected_model" onChange="inputChangeModelType(event)">
+                    <option value="" disabled selected>Choose your model type</option>
+                    <option value="LR">Logistic Regression</option>
+                    <option value="KNN">K-Nearest Neighbours</option>
+                    <option value="CART">Decision Tree</option>
+                    <option value="NB">Gaussian Naive Bayes</option>
+                    <option value="SVN">Support Vector Machine</option>
+                    <option value="naive_NN">Naive Neural Network</option>
+                    <option value="LSTM">Reccurent Neural Network (LSTM)</option>
+                  </select>
+                  <label>Selected model</label>
+                </div>
+          </div>
+
+          <div class="col m3 center-align">
+            <!--   Dropdown   -->
+            <div class="input-field col s12">
+                <select id="selected_month" onChange="inputChangeMonth(event)">
+                  <option value="" disabled selected>Choose your Month</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+                <label>Selected Month</label>
+              </div>
+        </div>
+
+        <div class="col m3 center-align">
+          <!--   Dropdown   -->
+          <div class="input-field col s12">
+              <select id="selected_day" onChange="inputChangeDay(event)">
+                <option value="" disabled selected>Choose your Day</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+              </select>
+              <label>Selected Day</label>
+            </div>
+      </div>
+
+      <div class="col m3 center-align">
+        <!--   Dropdown   -->
+        <div class="input-field col s12">
+            <select id="selected_year" onChange="inputChangeYear(event)">
+              <option value="" disabled selected>Choose your Year</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+            </select>
+            <label>Selected Year</label>
+          </div>
+    </div>
+ <div class="row center-align">
+  <button class="btn waves-effect waves-light" type="submit" name="action" onClick="returnData(event)">Submit
+    <i class="material-icons right">send</i>
+  </button>
+ </div>
+
+          
+</div>
+
+  <div class="row">
+        <div class="col s12 m6">
+              <div id="scatter">
+                <!-- We append our chart here. -->
+              </div>
+            </div>
+
+            <div class="col s12 m6">
+                  <div id="scatter">
+                    <!-- We append our chart here. -->
+                  </div>
+                </div>
+                </div>
+  </div>
+</div>
+
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">Project Findings</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="static/images/background2.jpg" alt="Unsplashed background img 2"></div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>Model Efficiency</h4>
+          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="page-footer teal">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Conclusion</h5>
+          <p class="grey-text text-lighten-4">Project Conclusions</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Project Created by:
+      <!-- Github link -->
+      <a class="brown-text text-lighten-3" href="#">Joker</a>
+      <a class="brown-text text-lighten-3" href="#">Ryan</a>
+      <a class="brown-text text-lighten-3" href="#">Jesse</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="static/js/materialize.js"></script>
+  <script src="static/js/init.js"></script>
+  <script src="static/js/app.js"></script>
+  
+
+
+  <script>  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems);
+  });
+  // Or with jQuery
+  $('.dropdown-trigger').dropdown();</script>
+
+  <script> const Calender = document.querySelector('.datepicker');
+  M.Datepicker.init(Calender,{});</script>
+
+   <script> document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems);
+});
+// Or with jQuery
+$(document).ready(function(){
+  $('select').formSelect();
+});</script>
+
+<!-- print selected input value for date to console -->
+
+
+<!-- print selected input value for model type to console -->
+
+
+  </body>
+</html>
