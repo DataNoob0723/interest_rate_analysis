@@ -49,7 +49,7 @@ class Model_Generation:
         DOMAIN = "localhost"
         DB = "fred_db"
         engine = create_engine(f"mysql://{USER}:{PASSWD}@{DOMAIN}:{PORT}/{DB}")
-        conn = engine.connect()
+        self.conn = engine.connect()
         
         self.df = pd.read_sql_query('select * from fred_data', con=engine)
         
@@ -102,8 +102,6 @@ class Model_Generation:
         reversed_df.reset_index(drop=True, inplace=True)
         
         return reversed_df
-        
-        df.to_sql('fred_data', conn, if_exists='replace', index=False)
         
     def get_dates(self):
         """
