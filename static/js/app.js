@@ -167,7 +167,7 @@ function returnData(e){
             });
 
 
-        chartGroup2.selectAll("circle")
+        chartGroup.selectAll("circle")
             .data(dataArray2)
             .enter()
             .append("circle")
@@ -264,7 +264,7 @@ function returnData(e){
 
   // Define the chart's margins as an object
   const margin = {
-    top: 60,
+    top: 100,
     right: 60,
     bottom: 60,
     left: 60
@@ -312,15 +312,33 @@ function returnData(e){
   const leftAxis = d3.axisLeft(yLinearScale);
 
   // Configure a line function which will plot the x and y coordinates using our scales
-  const drawLine = d3.line()
+  var drawLine = d3.line()
     .x(data => xTimeScale(data.date))
-    .y(data => yLinearScale(data.value));
+    .y(data => yLinearScale(data.value))
+  
+  var path = chartGroup.append('path')
+                      .attr('d', drawLine(data))
+                      .attr('stroke','teal')
+                      .attr('stroke-width', 4)
+                      .attr('fill', 'none')
+    
+  var curtain = chartGroup.append('rect')
+                  .attr('x', -1 * chartWidth)
+                  .attr('y', -1 * chartHeight)  
+                  .attr('height', 1.25 * chartHeight)
+                  .attr('width', chartWidth)
+                  .attr('class','curtain')
+                  .attr('transform', 'rotate(180)')
+                  .style('fill', '#ffffff')
 
-  // Append an SVG path and plot its points using the line function
-  chartGroup.append("path")
+  curtain.transition()
+         .duration(5000)
+         .attr('x', -2 * chartWidth)
+                  // Append an SVG path and plot its points using the line function
+  //chartGroup.append("path")
     // The drawLine function returns the instructions for creating the line for forceData
-    .attr("d", drawLine(data))
-    .classed("line", true);
+    //.attr("d", drawLine(data))
+    //.classed("line", true);
 
   // Append an SVG group element to the chartGroup, create the left axis inside of it
   chartGroup.append("g")
