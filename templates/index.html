@@ -13,6 +13,8 @@
 
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+
 </head>
 
 <body>
@@ -33,55 +35,121 @@
     <div class="parallax"><img src="static/images/background1.jpg" alt="Unsplashed background img 1"></div>
   </div>
 
-
   <div class="container">
-    <div class="section">
-        <div class="row">
-            <div class="col m6 center-align">
-              <!--   Dropdown   -->
-              <div class="input-field col s12">
-                  <select id="selected_model" onChange="inputChangeModelType(event)">
-                    <option value="" disabled selected>Choose your model type</option>
-                    <option value="LR">Logistic Regression</option>
-                    <option value="KNN">K-Nearest Neighbours</option>
-                    <option value="CART">Decision Tree</option>
-                    <option value="NB">Gaussian Naive Bayes</option>
-                    <option value="SVN">Support Vector Machine</option>
-                    <option value="naive_NN">Naive Neural Network</option>
-                    <option value="LSTM">Reccurent Neural Network (LSTM)</option>
-                  </select>
-                  <label>Selected model</label>
-                </div>
-          </div>
+    <div class="row center">
+      <h5 class="header col s12 teal-text">First select a model type first, then choose a date of interest</h5>
+    </div>
+  </div> <hr>
 
-  <div class="col m6 right-align">
-    <form>
-        <div class="input-field col s6">
-          <i class="material-icons prefix">date_range</i>
-          <input id="chosen_date" type="text" class="datepicker" onChange="inputChangeDate(event)">
-          <label for="chosen_date">Choose your date</label>
+      <!--   Dropdown   -->
+      <div class="input-field col m3 center-align">
+          <select id="selected_model" onChange="inputChangeModelType(event)">
+            <option value="" disabled selected>Choose your model type</option>
+            <option value="LR">Logistic Regression</option>
+            <option value="KNN">K-Nearest Neighbours</option>
+            <option value="CART">Decision Tree</option>
+            <option value="NB">Gaussian Naive Bayes</option>
+            <option value="SVN">Support Vector Machine</option>
+            <option value="naive_NN">Naive Neural Network</option>
+            <option value="LSTM">Reccurent Neural Network (LSTM)</option>
+          </select>
+          <label>Selected model</label>
         </div>
-    </form>
- </div>
-</div>
 
-  <div class="row">
-        <div class="col s12 m6">
-              <div id="scatter">
-                <!-- We append our chart here. -->
-              </div>
+        <div class="col m3 center-align">
+          <!--   Dropdown   -->
+          <div class="input-field col s12">
+              <select id="selected_month" onChange="inputChangeMonth(event)">
+                <option value="" disabled selected>Choose your Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+              <label>Selected Month</label>
             </div>
-
-            <div class="col s12 m6">
-                  <div id="scatter">
-                    <!-- We append our chart here. -->
-                  </div>
-                </div>
-                </div>
+      </div>
+      <div class="col m3 center-align">
+        <!--   Dropdown   -->
+        <div class="input-field col s12">
+            <select id="selected_day" onChange="inputChangeDay(event)">
+              <option value="" disabled selected>Choose your Day</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+            </select>
+            <label>Selected Day</label>
+          </div>
+    </div>
+    <div class="col m3 center-align">
+      <!--   Dropdown   -->
+      <div class="input-field col s12">
+          <select id="selected_year" onChange="inputChangeYear(event)">
+            <option value="" disabled selected>Choose your Year</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+          </select>
+          <label>Selected Year</label>
+        </div>
   </div>
-</div>
 
+  <div class="row center-align">
+  <button class="btn waves-effect waves-light" type="submit" name="action" onClick="returnData(event)">Submit
+    <i class="material-icons right">send</i>
+  </button>
+  </div>
 
+  <!-- insert chart element -->
+  <div class="row">
+
+  <div class="col m6 center-align">
+    <div id="chart"></div>
+    <script type="text/javascript" src="/static/js/app.js"></script>
+  </div>
+
+  <div class="col m6 center-align">
+    <div id="chart2"></div>
+    <script type="text/javascript" src="/static/js/app.js"></script>
+  </div>
+
+  </div>
 
   <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
@@ -147,6 +215,7 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="static/js/materialize.js"></script>
   <script src="static/js/init.js"></script>
+  <!-- <script src="static/js/app.js"></script> -->
 
   <script>  document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.dropdown-trigger');
@@ -170,20 +239,6 @@
 $(document).ready(function(){
   $('select').formSelect();
 });</script>
-
-<!-- print selected input value for date to console -->
-<script type="text/javascript">
- function inputChangeDate(e) {
-  console.log(document.getElementById("chosen_date").value);
- }
-</script>
-
-<!-- print selected input value for model type to console -->
-<script type="text/javascript">
- function inputChangeModelType(e) {
-  console.log(document.getElementById("selected_model").value);
- }
-</script>
 
   </body>
 </html>
