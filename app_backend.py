@@ -25,6 +25,7 @@ import json
 import os
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.metrics import confusion_matrix
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -210,7 +211,7 @@ class Model_Generation:
         
         X_train, X_test, Y_train, Y_test = train_test_split(
                                 feature_matrix_rescaled, outputs_array[:, 0], 
-                                test_size=0.2, 
+                                test_size=0.3, 
                                 random_state=23
                                 )
         
@@ -230,11 +231,11 @@ class Model_Generation:
         
         # Spot-check algorithms
         models = []
-        models.append(('LR', LogisticRegression())) 
+        models.append(('LR', LogisticRegression(class_weight="balanced"))) 
         models.append(('KNN', KNeighborsClassifier())) 
-        models.append(('CART', DecisionTreeClassifier())) 
+        models.append(('CART', DecisionTreeClassifier(class_weight="balanced"))) 
         models.append(('NB', GaussianNB())) 
-        models.append(('SVM', SVC(probability=True)))
+        models.append(('SVM', SVC(class_weight="balanced", probability=True)))
     
         results = []
         names = []
@@ -254,6 +255,9 @@ class Model_Generation:
             # Evaluate the model on the test sets
             result = model.score(X_test, Y_test)
             print(f"Test set acc: {result}")
+            
+            # Print confusion matrix
+            print(confusion_matrix(Y_test, model.predict(X_test)))
             
             with open(f"data/json_files/dates/classifiers/{name}/dates.json", "w") as json_file:
                 json.dump(dates_list, json_file)
@@ -396,6 +400,16 @@ class Model_Generation:
         col_list = list(df_X.columns)
         
         return col_list
+    
+    def value_counts(self, x):
+        """
+        x is an 1-D np array
+        """
+        y = np.bincount(x.astype(int))
+        ii = np.nonzero(y)[0]
+        print(list(zip(ii, y[ii])))
+
+        
         
 
 if __name__ == "__main__":
@@ -405,3 +419,7 @@ if __name__ == "__main__":
     MG.non_NN_algorithms_spot_check(2)
     MG.naive_NN_classifier(2)
     MG.LSTM_classifier(7)
+    
+#    X_train, X_test, Y_train, Y_test = MG.train_test_gen(2)
+#    MG.value_counts(Y_train)
+    
