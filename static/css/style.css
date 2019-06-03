@@ -71,7 +71,15 @@ thead {
 table {
   width:100%;
   }
- 
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 4px;
+}
+  
+.area {
+    fill: lightsteelblue;
+}
   
 
   
