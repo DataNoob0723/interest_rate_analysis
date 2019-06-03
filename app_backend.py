@@ -211,7 +211,7 @@ class Model_Generation:
         
         X_train, X_test, Y_train, Y_test = train_test_split(
                                 feature_matrix_rescaled, outputs_array[:, 0], 
-                                test_size=0.3, 
+                                test_size=0.2, 
                                 random_state=23
                                 )
         
