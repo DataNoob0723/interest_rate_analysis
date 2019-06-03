@@ -257,80 +257,80 @@ function returnData(e){
       value: 2.40,
     }
   ]
-   // Define SVG area dimensions
-   const
-   svgWidth = 600,
-   svgHeight = 500;
+  // Define SVG area dimensions
+  const
+    svgWidth = 375,
+    svgHeight = 300;
 
-// Define the chart's margins as an object
-const margin = {
-   top: 60,
-   right: 60,
-   bottom: 60,
-   left: 60
-};
+  // Define the chart's margins as an object
+  const margin = {
+    top: 60,
+    right: 60,
+    bottom: 60,
+    left: 60
+  };
 
-// Define dimensions of the chart area
-const chartWidth = svgWidth - margin.left - margin.right;
-const chartHeight = svgHeight - margin.top - margin.bottom;
+  // Define dimensions of the chart area
+  const chartWidth = svgWidth - margin.left - margin.right;
+  const chartHeight = svgHeight - margin.top - margin.bottom;
 
-// Select body, append SVG area to it, and set its dimensions
-const svg = d3.select("#line")
-.append("svg")
-.attr("width", svgWidth)
-.attr("height", svgHeight);
+  // Select body, append SVG area to it, and set its dimensions
+  const svg = d3.select("#line")
+    .append("svg")
+    .attr("width", svgWidth)
+    .attr("height", svgHeight);
 
-// Append a group area, then set its margins
-const chartGroup = svg.append("g")
-.attr("transform", `translate(${margin.left}, ${margin.top})`);
+  // Append a group area, then set its margins
+  const chartGroup = svg.append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-// Configure a parseTime function which will return a new Date object from a string
-const parseTime = d3.timeParse("%Y");
+  // Configure a parseTime function which will return a new Date object from a string
+  const parseTime = d3.timeParse("%Y");
 
-// Load data from forcepoints.csv
-// Print the forceData
-// Format the date and cast the force value to a number
-data.forEach(function(data) {
-   data.date = parseTime(data.date);
-   data.value = +data.value;
-});
+  // Load data from forcepoints.csv
+  // Print the forceData
+  // Format the date and cast the force value to a number
+  data.forEach(function (data) {
+    data.date = parseTime(data.date);
+    data.value = +data.value;
+  });
 
-// Configure a time scale
-// d3.extent returns the an array containing the min and max values for the property specified
-const xTimeScale = d3.scaleTime()
-   .domain(d3.extent(data, d => d.date))
-   .range([0, chartWidth]);
+  // Configure a time scale
+  // d3.extent returns the an array containing the min and max values for the property specified
+  const xTimeScale = d3.scaleTime()
+    .domain(d3.extent(data, d => d.date))
+    .range([0, chartWidth]);
 
-// Configure a linear scale with a range between the chartHeight and 0
-const yLinearScale = d3.scaleLinear()
-   .domain([0, d3.max(data, d => d.value)])
-   .range([chartHeight, 0]);
+  // Configure a linear scale with a range between the chartHeight and 0
+  const yLinearScale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)])
+    .range([chartHeight, 0]);
 
-// Create two new functions passing the scales in as arguments
-// These will be used to create the chart's axes
-const bottomAxis = d3.axisBottom(xTimeScale);
-const leftAxis = d3.axisLeft(yLinearScale);
+  // Create two new functions passing the scales in as arguments
+  // These will be used to create the chart's axes
+  const bottomAxis = d3.axisBottom(xTimeScale);
+  const leftAxis = d3.axisLeft(yLinearScale);
 
-// Configure a line function which will plot the x and y coordinates using our scales
-const drawLine = d3.line()
-   .x(data => xTimeScale(data.date))
-   .y(data => yLinearScale(data.value));
+  // Configure a line function which will plot the x and y coordinates using our scales
+  const drawLine = d3.line()
+    .x(data => xTimeScale(data.date))
+    .y(data => yLinearScale(data.value));
 
-// Append an SVG path and plot its points using the line function
-chartGroup.append("path")
-   // The drawLine function returns the instructions for creating the line for forceData
-   .attr("d", drawLine(data))
-   .classed("line", true);
+  // Append an SVG path and plot its points using the line function
+  chartGroup.append("path")
+    // The drawLine function returns the instructions for creating the line for forceData
+    .attr("d", drawLine(data))
+    .classed("line", true);
 
-// Append an SVG group element to the chartGroup, create the left axis inside of it
-chartGroup.append("g")
-   .classed("axis", true)
-   .call(leftAxis);
+  // Append an SVG group element to the chartGroup, create the left axis inside of it
+  chartGroup.append("g")
+    .classed("axis", true)
+    .call(leftAxis);
 
-// Append an SVG group element to the chartGroup, create the bottom axis inside of it
-// Translate the bottom axis to the bottom of the page
-chartGroup.append("g")
-   .classed("axis", true)
-   .attr("transform", `translate(0, ${chartHeight})`)
-   .call(bottomAxis);
- })()
+  // Append an SVG group element to the chartGroup, create the bottom axis inside of it
+  // Translate the bottom axis to the bottom of the page
+  chartGroup.append("g")
+    .classed("axis", true)
+    .attr("transform", `translate(0, ${chartHeight})`)
+    .call(bottomAxis);
+})()
