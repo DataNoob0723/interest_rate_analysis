@@ -260,11 +260,11 @@ function returnData(e){
    // Define SVG area dimensions
    const
    svgWidth = 600,
-   svgHeight = 400;
+   svgHeight = 500;
 
 // Define the chart's margins as an object
 const margin = {
-   top: 100,
+   top: 60,
    right: 60,
    bottom: 60,
    left: 60
