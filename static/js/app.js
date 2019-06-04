@@ -227,7 +227,7 @@ function returnData(e) {
           .attr("x", (d, i) => xScale2(X_Axis_Date_Data2[i]))
           .attr("y", chartHeight2)
           .transition()
-          //.duration(2000)
+          .duration(2000)
           .ease(d3.easeExp)
           .attr("y", d => yScale2(d))
           .attr("width", xScale2.bandwidth())
@@ -390,7 +390,6 @@ function returnData(e) {
     .attr('stroke', 'teal')
     .attr('stroke-width', 4)
     .attr('fill', 'none')
-
   // Add a curtain to hide the chart until transition
   var curtain = chartGroup.append('rect')
     .attr('x', -1 * chartWidth)
@@ -417,7 +416,7 @@ function returnData(e) {
     .attr("transform", `translate(0, ${chartHeight})`)
     .call(bottomAxis);
 
-  // Add the text label for the y axis
+  /* Add the text label for the y axis
   chartGroup.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - margin.left)
@@ -426,11 +425,11 @@ function returnData(e) {
     .style("text-anchor", "middle")
     .text("Fed Rate (%)");
 
-  // Add the text label for the x axis
+    // Add the text label for the x axis
   chartGroup.append("text")
     .attr("transform", "translate(" + (chartWidth / 2) + " ," + ((chartHeight - 5) + margin.bottom) + ")")
     .style("text-anchor", "middle")
-    .text("Year");
+    .text("Year");*/
 
   // Add recession point of interest 
   chartGroup.append("text")

@@ -41,7 +41,7 @@ import pymysql
 
 class Model_Generation:
     def __init__(self):
-#        self.df = pd.read_csv("data/correct_fred_data.csv")
+       #self.df = pd.read_csv("data/correct_fred_data.csv")
         pymysql.install_as_MySQLdb()
         
         PASSWD = os.getenv("LOCAL_MYSQL_PASS")
