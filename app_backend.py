@@ -41,18 +41,18 @@ import pymysql
 
 class Model_Generation:
     def __init__(self):
-#        self.df = pd.read_csv("data/correct_fred_data.csv")
-        pymysql.install_as_MySQLdb()
+       self.df = pd.read_csv("data/correct_fred_data.csv")
+        #pymysql.install_as_MySQLdb()
         
-        PASSWD = os.getenv("LOCAL_MYSQL_PASS")
-        USER = "root"
-        PORT = "3306"
-        DOMAIN = "localhost"
-        DB = "fred_db"
-        engine = create_engine(f"mysql://{USER}:{PASSWD}@{DOMAIN}:{PORT}/{DB}")
-        self.conn = engine.connect()
+        #PASSWD = os.getenv("LOCAL_MYSQL_PASS")
+        #USER = "root"
+        #PORT = "3306"
+        #DOMAIN = "localhost"
+        #DB = "fred_db"
+        #engine = create_engine(f"mysql://{USER}:{PASSWD}@{DOMAIN}:{PORT}/{DB}")
+        #self.conn = engine.connect()
         
-        self.df = pd.read_sql_query('select * from fred_data', con=engine)
+        #self.df = pd.read_sql_query('select * from fred_data', con=engine)
         
     
     def preprocess_df(self):
